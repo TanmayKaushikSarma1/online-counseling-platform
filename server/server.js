@@ -74,35 +74,11 @@ app.use(
   emailRoutes
 );
 
-// Temporary MongoDB connection check
-const mongoUri = process.env.MONGO_URI;
-
-if (mongoUri) {
-  console.log(
-    "MongoDB host:",
-    mongoUri.includes("@")
-      ? mongoUri.split("@")[1].split("/")[0]
-      : mongoUri
+app.get("/", (req, res) => {
+  res.send(
+    "Online Counseling Platform API is running"
   );
-} else {
-  console.log(
-    "MongoDB URI is missing"
-  );
-}
-
-mongoose
-  .connect(mongoUri)
-  .then(() => {
-    console.log(
-      "MongoDB connected"
-    );
-  })
-  .catch((error) => {
-    console.log(
-      "MongoDB connection error:",
-      error
-    );
-  });
+});
 
 io.on("connection", (socket) => {
   console.log(
@@ -145,20 +121,45 @@ io.on("connection", (socket) => {
   });
 });
 
-app.get("/", (req, res) => {
-  res.send(
-    "Online Counseling Platform API is running"
-  );
-});
+const mongoUri =
+  process.env.MONGO_URI;
 
-const PORT =
-  process.env.PORT || 5000;
-
-server.listen(
-  PORT,
-  () => {
-    console.log(
-      `Server running on port ${PORT}`
-    );
-  }
+console.log(
+  "Checking MongoDB connection..."
 );
+
+console.log(
+  "MongoDB host:",
+  mongoUri?.includes("@")
+    ? mongoUri.split("@")[1].split("/")[0]
+    : "Missing"
+);
+
+mongoose
+  .connect(mongoUri)
+  .then(() => {
+    console.log(
+      "MongoDB connected successfully!"
+    );
+
+    const PORT =
+      process.env.PORT || 5000;
+
+    server.listen(
+      PORT,
+      () => {
+        console.log(
+          `Server running on port ${PORT}`
+        );
+      }
+    );
+  })
+  .catch((error) => {
+    console.log(
+      "MongoDB connection failed:"
+    );
+
+    console.log(
+      error.message
+    );
+  });
