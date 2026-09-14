@@ -74,6 +74,36 @@ app.use(
   emailRoutes
 );
 
+// Temporary MongoDB connection check
+const mongoUri = process.env.MONGO_URI;
+
+if (mongoUri) {
+  console.log(
+    "MongoDB host:",
+    mongoUri.includes("@")
+      ? mongoUri.split("@")[1].split("/")[0]
+      : mongoUri
+  );
+} else {
+  console.log(
+    "MongoDB URI is missing"
+  );
+}
+
+mongoose
+  .connect(mongoUri)
+  .then(() => {
+    console.log(
+      "MongoDB connected"
+    );
+  })
+  .catch((error) => {
+    console.log(
+      "MongoDB connection error:",
+      error
+    );
+  });
+
 io.on("connection", (socket) => {
   console.log(
     "User connected:",
@@ -114,20 +144,6 @@ io.on("connection", (socket) => {
     );
   });
 });
-
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log(
-      "MongoDB connected"
-    );
-  })
-  .catch((error) => {
-    console.log(
-      "MongoDB connection error:",
-      error
-    );
-  });
 
 app.get("/", (req, res) => {
   res.send(
