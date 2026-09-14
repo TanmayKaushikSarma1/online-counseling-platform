@@ -47,7 +47,7 @@ function Email() {
 
       const response =
         await fetch(
-          "http://localhost:5000/api/emails/send",
+          "https://online-counseling-platform-backend.onrender.com/api/emails/send",
           {
             method: "POST",
 

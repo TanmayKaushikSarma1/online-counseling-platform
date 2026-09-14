@@ -27,7 +27,7 @@ function BookAppointment() {
     const getCounselor = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/counselors/${id}`
+          `https://online-counseling-platform-backend.onrender.com/api/counselors/${id}`
         );
 
         const data =
@@ -151,7 +151,7 @@ function BookAppointment() {
       setMessage("");
 
       const response = await fetch(
-        "http://localhost:5000/api/appointments",
+        "https://online-counseling-platform-backend.onrender.com/api/appointments",
         {
           method: "POST",
 

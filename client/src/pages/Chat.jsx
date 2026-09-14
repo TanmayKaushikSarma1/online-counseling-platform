@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:5000");
+const socket = io("https://online-counseling-platform-backend.onrender.com");
 
 function Chat() {
   const { userId } = useParams();
@@ -30,7 +30,7 @@ function Chat() {
     const getOtherUser = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/messages/user/${userId}`,
+          `https://online-counseling-platform-backend.onrender.com/api/messages/user/${userId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -63,7 +63,7 @@ function Chat() {
     const getMessages = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/messages/${userId}`,
+          `https://online-counseling-platform-backend.onrender.com/api/messages/${userId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -158,7 +158,7 @@ function Chat() {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/messages",
+        "https://online-counseling-platform-backend.onrender.com/api/messages",
         {
           method: "POST",
 

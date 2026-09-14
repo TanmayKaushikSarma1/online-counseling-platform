@@ -19,7 +19,7 @@ function ClientRecord() {
     const getClientRecord = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/client-records/${id}`,
+          `https://online-counseling-platform-backend.onrender.com/api/client-records/${id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -46,7 +46,7 @@ function ClientRecord() {
     const getNotes = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/session-notes/${id}`,
+          `https://online-counseling-platform-backend.onrender.com/api/session-notes/${id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -95,7 +95,7 @@ function ClientRecord() {
       }
 
       const response = await fetch(
-        `http://localhost:5000/api/session-notes/${id}`,
+        `https://online-counseling-platform-backend.onrender.com/api/session-notes/${id}`,
         {
           method: "POST",
           headers: {
@@ -362,7 +362,7 @@ function ClientRecord() {
                         </p>
 
                         <a
-                          href={`http://localhost:5000${item.attachment.filePath}`}
+                          href={`https://online-counseling-platform-backend.onrender.com${item.attachment.filePath}`}
                           target="_blank"
                           rel="noreferrer"
                           className="inline-block mt-2 text-blue-600 hover:underline"

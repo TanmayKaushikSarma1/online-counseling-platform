@@ -44,7 +44,7 @@ function CounselorDashboard() {
       try {
         const response =
           await fetch(
-            "http://localhost:5000/api/auth/profile",
+            "https://online-counseling-platform-backend.onrender.com/api/auth/profile",
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -99,7 +99,7 @@ function CounselorDashboard() {
       try {
         const response =
           await fetch(
-            "http://localhost:5000/api/appointments/counselor",
+            "https://online-counseling-platform-backend.onrender.com/api/appointments/counselor",
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -124,7 +124,7 @@ function CounselorDashboard() {
       try {
         const response =
           await fetch(
-            "http://localhost:5000/api/client-records",
+            "https://online-counseling-platform-backend.onrender.com/api/client-records",
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -237,7 +237,7 @@ function CounselorDashboard() {
     try {
       const response =
         await fetch(
-          "http://localhost:5000/api/counselors/profile",
+          "https://online-counseling-platform-backend.onrender.com/api/counselors/profile",
           {
             method: "PUT",
 
@@ -294,7 +294,7 @@ function CounselorDashboard() {
     try {
       const response =
         await fetch(
-          `http://localhost:5000/api/appointments/${id}/cancel`,
+          `https://online-counseling-platform-backend.onrender.com/api/appointments/${id}/cancel`,
           {
             method: "PUT",
 
@@ -345,8 +345,6 @@ function CounselorDashboard() {
     <div className="min-h-screen bg-slate-100 px-4 sm:px-6 py-8 sm:py-10">
       <div className="max-w-6xl mx-auto">
 
-        {/* Header */}
-
         <h1 className="text-2xl sm:text-3xl font-bold text-slate-800">
           Welcome, {user?.name}
         </h1>
@@ -362,8 +360,6 @@ function CounselorDashboard() {
             {message}
           </p>
         )}
-
-        {/* Counselor Profile */}
 
         <div className="bg-white rounded-xl shadow-md p-5 sm:p-8 mt-8">
 
@@ -424,8 +420,6 @@ function CounselorDashboard() {
               className="w-full border rounded-lg p-3 mb-5"
             />
 
-            {/* Services */}
-
             <label className="block font-medium mb-2">
               Services
             </label>
@@ -472,15 +466,11 @@ function CounselorDashboard() {
 
             <button
               type="button"
-              onClick={
-                addService
-              }
+              onClick={addService}
               className="mt-3 bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg"
             >
               Add Service
             </button>
-
-            {/* Availability */}
 
             <h2 className="text-xl font-semibold mt-8 text-slate-800">
               Availability
@@ -589,9 +579,7 @@ function CounselorDashboard() {
 
             <button
               type="button"
-              onClick={
-                addAvailability
-              }
+              onClick={addAvailability}
               className="mt-4 bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg"
             >
               Add Availability
@@ -610,8 +598,6 @@ function CounselorDashboard() {
 
           </form>
         </div>
-
-        {/* My Clients */}
 
         <div className="bg-white rounded-xl shadow-md p-5 sm:p-8 mt-8">
 
@@ -677,8 +663,6 @@ function CounselorDashboard() {
 
         </div>
 
-        {/* My Appointments */}
-
         <div className="bg-white rounded-xl shadow-md p-5 sm:p-8 mt-8">
 
           <h2 className="text-xl sm:text-2xl font-bold text-slate-800">
@@ -716,6 +700,7 @@ function CounselorDashboard() {
                         </p>
 
                         <div className="mt-3 text-gray-600 space-y-1">
+
                           <p>
                             Date:{" "}
                             {appointment.date}
@@ -730,6 +715,7 @@ function CounselorDashboard() {
                             Status:{" "}
                             {appointment.status}
                           </p>
+
                         </div>
 
                         <p className="text-gray-600 mt-2">

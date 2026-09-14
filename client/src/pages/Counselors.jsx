@@ -24,7 +24,7 @@ function Counselors() {
   const getCounselors = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/counselors"
+        "https://online-counseling-platform-backend.onrender.com/api/counselors"
       );
 
       const data =

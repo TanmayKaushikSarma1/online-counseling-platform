@@ -14,7 +14,7 @@ function CounselorProfile() {
     const getCounselor = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/counselors/${id}`
+          `https://online-counseling-platform-backend.onrender.com/api/counselors/${id}`
         );
 
         const data =

@@ -29,7 +29,7 @@ function Payment() {
       setMessage("");
 
       const response = await fetch(
-        "http://localhost:5000/api/payments/create-order",
+        "https://online-counseling-platform-backend.onrender.com/api/payments/create-order",
         {
           method: "POST",
 
@@ -71,7 +71,7 @@ function Payment() {
           try {
             const response =
               await fetch(
-                "http://localhost:5000/api/payments/payment-success",
+                "https://online-counseling-platform-backend.onrender.com/api/payments/payment-success",
                 {
                   method: "POST",
 

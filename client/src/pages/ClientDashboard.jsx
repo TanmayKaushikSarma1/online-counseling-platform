@@ -20,7 +20,7 @@ function ClientDashboard() {
       try {
         const response =
           await fetch(
-            "http://localhost:5000/api/appointments/client",
+            "https://online-counseling-platform-backend.onrender.com/api/appointments/client",
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -60,7 +60,7 @@ function ClientDashboard() {
     try {
       const response =
         await fetch(
-          `http://localhost:5000/api/appointments/${id}/cancel`,
+          `https://online-counseling-platform-backend.onrender.com/api/appointments/${id}/cancel`,
           {
             method: "PUT",
 

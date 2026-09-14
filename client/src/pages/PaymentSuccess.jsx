@@ -26,7 +26,7 @@ function PaymentSuccess() {
       try {
         const response =
           await fetch(
-            `http://localhost:5000/api/payments/verify-payment/${sessionId}`,
+            `https://online-counseling-platform-backend.onrender.com/api/payments/verify-payment/${sessionId}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
