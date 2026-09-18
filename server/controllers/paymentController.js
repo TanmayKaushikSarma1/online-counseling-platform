@@ -6,19 +6,13 @@ const razorpay = new Razorpay({
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
-// Create Razorpay order
-const createOrder = async (
-  req,
-  res
-) => {
+const createOrder = async (req, res) => {
   try {
-    const { appointmentId } =
-      req.body;
+    const { appointmentId } = req.body;
 
     if (!appointmentId) {
       return res.status(400).json({
-        message:
-          "Appointment ID is required",
+        message: "Appointment ID is required",
       });
     }
 
@@ -30,24 +24,25 @@ const createOrder = async (
 
     if (!appointment) {
       return res.status(404).json({
-        message:
-          "Appointment not found",
+        message: "Appointment not found",
       });
     }
 
     const options = {
       amount: 50000,
       currency: "INR",
-      receipt:
-        `appointment_${appointmentId}`,
+      receipt: `appointment_${appointmentId}`,
     };
 
     const order =
-      await razorpay.orders.create(
-        options
-      );
+      await razorpay.orders.create(options);
 
-    res.json(order);
+    res.json({
+      keyId: process.env.RAZORPAY_KEY_ID,
+      orderId: order.id,
+      amount: order.amount,
+      currency: order.currency,
+    });
   } catch (error) {
     console.log(
       "Create order error:",
@@ -55,25 +50,18 @@ const createOrder = async (
     );
 
     res.status(500).json({
-      message:
-        "Could not create payment order",
+      message: "Could not create payment order",
     });
   }
 };
 
-// Confirm successful payment
-const paymentSuccess = async (
-  req,
-  res
-) => {
+const paymentSuccess = async (req, res) => {
   try {
-    const { appointmentId } =
-      req.body;
+    const { appointmentId } = req.body;
 
     if (!appointmentId) {
       return res.status(400).json({
-        message:
-          "Appointment ID is required",
+        message: "Appointment ID is required",
       });
     }
 
@@ -85,19 +73,16 @@ const paymentSuccess = async (
 
     if (!appointment) {
       return res.status(404).json({
-        message:
-          "Appointment not found",
+        message: "Appointment not found",
       });
     }
 
-    appointment.paymentStatus =
-      "paid";
+    appointment.paymentStatus = "paid";
 
     await appointment.save();
 
     res.json({
-      message:
-        "Payment successful",
+      message: "Payment successful",
       appointment,
     });
   } catch (error) {
@@ -107,8 +92,7 @@ const paymentSuccess = async (
     );
 
     res.status(500).json({
-      message:
-        "Could not update payment status",
+      message: "Could not update payment status",
     });
   }
 };
