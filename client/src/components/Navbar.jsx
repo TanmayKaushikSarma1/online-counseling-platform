@@ -29,7 +29,7 @@ function Navbar() {
             to="/"
             className="text-xl sm:text-2xl font-bold text-white"
           >
-            🩺 Counseling Platform
+            🩺 Counseling Platform by Tanmay Kaushik
           </Link>
 
           <nav className="flex flex-wrap items-center gap-3">
