@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 
 function BookAppointment() {
   const { id } = useParams();
@@ -38,7 +42,6 @@ function BookAppointment() {
             data.message ||
               "Could not get counselor."
           );
-
           return;
         }
 
@@ -66,7 +69,9 @@ function BookAppointment() {
     getCounselor();
   }, [id]);
 
-  const getDayName = (selectedDate) => {
+  const getDayName = (
+    selectedDate
+  ) => {
     const dateObject = new Date(
       `${selectedDate}T00:00:00`
     );
@@ -79,22 +84,23 @@ function BookAppointment() {
     );
   };
 
-  const getSelectedAvailability = () => {
-    if (
-      !date ||
-      !counselor?.availability
-    ) {
-      return null;
-    }
+  const getSelectedAvailability =
+    () => {
+      if (
+        !date ||
+        !counselor?.availability
+      ) {
+        return null;
+      }
 
-    const dayName =
-      getDayName(date);
+      const dayName =
+        getDayName(date);
 
-    return counselor.availability.find(
-      (item) =>
-        item.day === dayName
-    );
-  };
+      return counselor.availability.find(
+        (item) =>
+          item.day === dayName
+      );
+    };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -154,14 +160,11 @@ function BookAppointment() {
         "https://online-counseling-platform-backend.onrender.com/api/appointments",
         {
           method: "POST",
-
           headers: {
             "Content-Type":
               "application/json",
-
             Authorization: `Bearer ${token}`,
           },
-
           body: JSON.stringify({
             counselor: id,
             service,
@@ -181,7 +184,6 @@ function BookAppointment() {
         );
 
         setBooking(false);
-
         return;
       }
 
@@ -191,7 +193,6 @@ function BookAppointment() {
         );
 
         setBooking(false);
-
         return;
       }
 
@@ -212,9 +213,13 @@ function BookAppointment() {
   if (!counselor) {
     return (
       <div className="min-h-screen bg-slate-100 px-4 py-10">
-        <div className="text-center text-gray-600">
-          {message ||
-            "Loading counselor..."}
+        <div className="max-w-2xl mx-auto">
+          <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-8 text-center">
+            <p className="text-gray-600">
+              {message ||
+                "Loading counselor..."}
+            </p>
+          </div>
         </div>
       </div>
     );
@@ -227,161 +232,206 @@ function BookAppointment() {
     <div className="min-h-screen bg-slate-100 px-4 sm:px-6 py-8 sm:py-10">
       <div className="max-w-2xl mx-auto">
 
-        <div className="bg-white rounded-xl shadow-md p-5 sm:p-8">
+        <Link
+          to={`/counselors/${id}`}
+          className="text-blue-600 hover:text-blue-700 font-medium"
+        >
+          ← Back to Counselor
+        </Link>
 
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-800">
-            Book Appointment
-          </h1>
+        <div className="bg-white border border-gray-200 rounded-xl shadow-sm mt-5 overflow-hidden">
 
-          <p className="text-gray-600 mt-2">
-            Book a session with{" "}
-            {counselor.name}.
-          </p>
+          {/* Header */}
 
-          {message && (
-            <p className="text-blue-600 mt-4">
-              {message}
+          <div className="bg-slate-800 px-5 sm:px-8 py-6">
+            <p className="text-blue-200 text-sm font-medium">
+              Appointment Booking
             </p>
-          )}
 
-          <form
-            onSubmit={handleSubmit}
-            className="mt-6"
-          >
+            <h1 className="text-2xl sm:text-3xl font-bold text-white mt-1">
+              Book a Session
+            </h1>
 
-            {/* Service */}
+            <p className="text-gray-300 mt-2">
+              Schedule a session with{" "}
+              {counselor.name}.
+            </p>
+          </div>
 
-            <label className="block font-medium mb-2">
-              Counseling Service
-            </label>
+          <div className="p-5 sm:p-8">
 
-            {counselor.services &&
-            counselor.services.length > 0 ? (
-              <select
-                value={service}
-                onChange={(e) =>
-                  setService(
-                    e.target.value
-                  )
-                }
-                className="w-full border rounded-lg p-3 mb-5"
-              >
-                {counselor.services.map(
-                  (item, index) => (
-                    <option
-                      key={index}
-                      value={item}
-                    >
-                      {item}
-                    </option>
-                  )
-                )}
-              </select>
-            ) : (
-              <input
-                type="text"
-                value={service}
-                onChange={(e) =>
-                  setService(
-                    e.target.value
-                  )
-                }
-                className="w-full border rounded-lg p-3 mb-5"
-              />
+            {message && (
+              <div className="bg-blue-50 border border-blue-200 text-blue-700 rounded-lg px-4 py-3 mb-6">
+                {message}
+              </div>
             )}
 
-            {/* Date */}
-
-            <label className="block font-medium mb-2">
-              Date
-            </label>
-
-            <input
-              type="date"
-              value={date}
-              onChange={(e) => {
-                setDate(
-                  e.target.value
-                );
-
-                setTime("");
-                setMessage("");
-              }}
-              min={
-                new Date()
-                  .toISOString()
-                  .split("T")[0]
-              }
-              className="w-full border rounded-lg p-3 mb-2"
-            />
-
-            {date &&
-              !selectedAvailability && (
-                <p className="text-red-600 text-sm mb-5">
-                  {counselor.name} is not
-                  available on this day.
-                </p>
-              )}
-
-            {date &&
-              selectedAvailability && (
-                <p className="text-green-600 text-sm mb-5">
-                  Available from{" "}
-                  {
-                    selectedAvailability.startTime
-                  }{" "}
-                  to{" "}
-                  {
-                    selectedAvailability.endTime
-                  }
-                </p>
-              )}
-
-            {/* Time */}
-
-            <label className="block font-medium mb-2">
-              Time
-            </label>
-
-            <input
-              type="time"
-              value={time}
-              min={
-                selectedAvailability?.startTime ||
-                ""
-              }
-              max={
-                selectedAvailability?.endTime ||
-                ""
-              }
-              disabled={
-                !selectedAvailability
-              }
-              onChange={(e) =>
-                setTime(
-                  e.target.value
-                )
-              }
-              className="w-full border rounded-lg p-3 mb-6 disabled:bg-gray-100"
-            />
-
-            {/* Submit */}
-
-            <button
-              type="submit"
-              disabled={
-                !selectedAvailability ||
-                booking
-              }
-              className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white py-3 rounded-lg font-semibold"
+            <form
+              onSubmit={handleSubmit}
+              className="space-y-5"
             >
-              {booking
-                ? "Booking..."
-                : "Book Appointment"}
-            </button>
 
-          </form>
+              {/* Service */}
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Counseling Service
+                </label>
+
+                {counselor.services &&
+                counselor.services.length > 0 ? (
+                  <select
+                    value={service}
+                    onChange={(e) =>
+                      setService(
+                        e.target.value
+                      )
+                    }
+                    className="w-full border border-gray-300 rounded-lg px-4 py-3 bg-white outline-none focus:border-blue-500"
+                  >
+                    {counselor.services.map(
+                      (
+                        item,
+                        index
+                      ) => (
+                        <option
+                          key={index}
+                          value={item}
+                        >
+                          {item}
+                        </option>
+                      )
+                    )}
+                  </select>
+                ) : (
+                  <input
+                    type="text"
+                    value={service}
+                    onChange={(e) =>
+                      setService(
+                        e.target.value
+                      )
+                    }
+                    className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:border-blue-500"
+                  />
+                )}
+              </div>
+
+              {/* Date */}
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Date
+                </label>
+
+                <input
+                  type="date"
+                  value={date}
+                  onChange={(e) => {
+                    setDate(
+                      e.target.value
+                    );
+                    setTime("");
+                    setMessage("");
+                  }}
+                  min={
+                    new Date()
+                      .toISOString()
+                      .split("T")[0]
+                  }
+                  className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:border-blue-500"
+                />
+              </div>
+
+              {/* Availability */}
+
+              {date &&
+                !selectedAvailability && (
+                  <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-3">
+                    <p className="text-red-600 text-sm">
+                      {counselor.name} is
+                      not available on
+                      this day.
+                    </p>
+                  </div>
+                )}
+
+              {date &&
+                selectedAvailability && (
+                  <div className="bg-green-50 border border-green-200 rounded-lg px-4 py-3">
+                    <p className="text-green-700 text-sm">
+                      Available from{" "}
+                      <span className="font-semibold">
+                        {
+                          selectedAvailability.startTime
+                        }
+                      </span>{" "}
+                      to{" "}
+                      <span className="font-semibold">
+                        {
+                          selectedAvailability.endTime
+                        }
+                      </span>
+                    </p>
+                  </div>
+                )}
+
+              {/* Time */}
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Time
+                </label>
+
+                <input
+                  type="time"
+                  value={time}
+                  min={
+                    selectedAvailability?.startTime ||
+                    ""
+                  }
+                  max={
+                    selectedAvailability?.endTime ||
+                    ""
+                  }
+                  disabled={
+                    !selectedAvailability
+                  }
+                  onChange={(e) =>
+                    setTime(
+                      e.target.value
+                    )
+                  }
+                  className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:border-blue-500 disabled:bg-gray-100 disabled:text-gray-400"
+                />
+
+                {!date && (
+                  <p className="text-sm text-gray-500 mt-2">
+                    Select a date first to
+                    see available times.
+                  </p>
+                )}
+              </div>
+
+              {/* Submit */}
+
+              <button
+                type="submit"
+                disabled={
+                  !selectedAvailability ||
+                  booking
+                }
+                className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white py-3 rounded-lg font-semibold"
+              >
+                {booking
+                  ? "Booking..."
+                  : "Book Appointment & Continue to Payment"}
+              </button>
+
+            </form>
+          </div>
         </div>
+
       </div>
     </div>
   );
